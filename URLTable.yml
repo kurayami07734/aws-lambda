@@ -1,0 +1,31 @@
+URLTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: URLTable-${self:provider.stage}
+    BillingMode: PAY_PER_REQUEST
+    KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      - AttributeName: SK
+        KeyType: RANGE
+    AttributeDefinitions:
+      - AttributeName: PK  # SHORT ID
+        AttributeType: S
+      - AttributeName: SK  # SHORT ID
+        AttributeType: S
+    TimeToLiveSpecification:
+      AttributeName: TTL
+      Enabled: true
+
+Outputs:
+  URLTableArn:
+    Value: 
+      "Fn::GetAtt": [ URLTable, Arn ]
+    Export:
+      Name: URLTable-${self:provider.stage}-Arn
+  
+  URLTableName:
+    Value: 
+      Ref: URLTable
+    Export:
+      Name: URLTable-${self:provider.stage}-Name
